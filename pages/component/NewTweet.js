@@ -1,10 +1,16 @@
 import { useSession } from "next-auth/react";
-import Loading from "./loading";
+import Loading from "pages/loading";
 import { useState } from "react";
+import Tweets from "./Tweets";
+import { useRouter } from "next/router";
 
-const Newtweet = () => {
-  const { data: session } = useSession();
+export default function Newtweet({ tweets }) {
+  const { data: session , status } = useSession();
   if (!session) return <Loading />;
+
+  if(status === 'loading') return null;
+
+  const router = useRouter();
 
   const [content, setContent] = useState("");
 
@@ -46,15 +52,15 @@ const Newtweet = () => {
 
               if (!content) return alert("no content");
 
-              await fetch('/api/tweet' , {
-                  body: JSON.stringify({content}),
-                  headers:{
-                      "Content-Type":"application/json"
-                  },
-                  method:'POST'
+              await fetch("/api/tweet", {
+                body: JSON.stringify({ content }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                method: "POST",
+              });
 
-
-              })
+              router.reload(window.location.pathname)
             }}
           >
             <div className="tweet-form flex-1">
@@ -154,8 +160,7 @@ const Newtweet = () => {
           </form>
         </div>
       </div>
+      <Tweets tweets={tweets} />
     </div>
   );
-};
-
-export default Newtweet;
+}

@@ -11,6 +11,10 @@ module.exports = {
       },
       colors:{
         "lightBlack":"rgb(110, 105, 105)"
+      },
+      fontSize:{
+        "verySmall": "13px",
+        "small": "15px"
       }
     },
   },

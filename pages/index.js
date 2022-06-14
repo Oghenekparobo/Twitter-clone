@@ -11,13 +11,15 @@ export default function Home() {
 
   // returns the loading page
   if (status == 'loading') {
-    return <Loading/>
+    return null
   }
+
 
   // redirects you to the homepage
   if(session){ 
     router.push('/home')
   }
+
 
   return (
     <div className="bg-black h-screen font-roboto flex flex-col justify-center items-center space-y-28">
@@ -25,7 +27,7 @@ export default function Home() {
       <div className="logo">
         <BsTwitter/>
       </div>
-
+ 
       <div>
         <a href="/api/auth/signin" className="btn">Login</a>
       </div>
