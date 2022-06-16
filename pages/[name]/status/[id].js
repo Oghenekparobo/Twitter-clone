@@ -1,23 +1,13 @@
-import { useSession } from "next-auth/react";
-import Loading from "pages/loading";
-import { useState } from "react";
-import Tweets from "./Tweets";
-import { useRouter } from "next/router";
+import {getTweet} from "lib/data";
+import Tweet from "pages/component/Tweet";
+import prisma from "lib/prisma";
 
-export default function Newtweet({ tweets }) {
-  const { data: session , status } = useSession();
-  
-  if (!session) return <Loading />;
 
-  if(status === 'loading') return null;
-
-  const router = useRouter();
-
-  const [content, setContent] = useState("");
-
-  return (
-    <div className="tweets-section bg-black h-full text-white h-screen">
-      <div className="">
+const SingleTweet = ( {tweet}) => {
+    return ( 
+<div className="text-white bg-black h-screen text-white">
+<div className="tweets-section text-white p-6">
+      <div className="p-6">
         <div className="tweet-navbar py-4 px-2 justify-between hidden md:flex md:block ">
           <div className="navbar-link">
             <a href="/" className="font-bold">
@@ -161,7 +151,26 @@ export default function Newtweet({ tweets }) {
           </form>
         </div>
       </div>
-      <Tweets tweets={tweets} />
     </div>
-  );
+<Tweet tweet={tweet}/>
+</div>
+     );
 }
+
+export const getServerSideProps = async ({params}) =>{ 
+    let tweet = await getTweet(params.id , prisma)
+    tweet = JSON.parse(JSON.stringify(tweet))
+
+    return {
+        props:{
+            tweet,
+        }
+    }
+
+
+
+
+
+} 
+
+export default SingleTweet;

@@ -1,7 +1,7 @@
 const Search = () => {
   return (
-    <div className="text-white search-bar  space-y-4 p-2">
-      <div className="search-section">
+    <div className="text-white search-bar fixed w-full  space-y-4 p-2">
+      <div className="search-section ">
         <div className="">
           <div className="search-btn flex justify relative">
             <svg

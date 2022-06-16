@@ -2,7 +2,7 @@ import { BsTwitter } from "react-icons/bs";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar  text-white text-xl h-screen  hidden md:block">
+    <div className="sidebar fixed bg-black text-white text-xl h-screen p-4  hidden md:block">
       <div className="flex flex-col  space-y-28 pl-24">
         {/* disabled links */}
         <div className="sidebar-links_disabled">

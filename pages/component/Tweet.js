@@ -1,5 +1,6 @@
 import timeago from "lib/timeago";
 import Image from "next/image";
+import Link from "next/link";
 
 const Tweet = ({ tweet }) => {
   return (
@@ -7,15 +8,27 @@ const Tweet = ({ tweet }) => {
       <div className="flex gap-4 tweeets py-4">
         <div className="img-container">
           {tweet.author.image && (
-            <Image src={tweet.author.image} alt="" className="rounded-full" width="40" height="40" />
+            <Image
+              src={tweet.author.image}
+              alt=""
+              className="rounded-full"
+              width="40"
+              height="40"
+            />
           )}
         </div>
 
         <div className="name-content_date-container flex flex-col">
           <div className="name-date flex gap-2">
-            <h4>{tweet.author.name} </h4>
+            <Link href={`/${tweet.author.name}`}>
+              <a>{tweet.author.name} </a>
+            </Link>
             <p className="text-small text-gray-500 ">{tweet.author.email}</p>
-            <p className="text-verySmall text-gray-500 tracking-wide">{timeago.format(new Date(tweet.createdAt))}</p>
+            <Link href={`/${tweet.author.name}/status/${tweet.id}`}>
+              <a className="hover:underline">
+                {timeago.format(new Date(tweet.createdAt))}
+              </a>
+            </Link>
           </div>
 
           <div className="content text-small">

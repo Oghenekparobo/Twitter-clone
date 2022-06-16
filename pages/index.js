@@ -1,10 +1,12 @@
 import {BsTwitter} from 'react-icons/bs'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import Loading from './loading'
+import Tweets from './component/Tweets'
+import prisma from 'lib/prisma'
+import { getTweets } from 'lib/data.js'
 
 
-export default function Home() {
+export default function Home({tweets}) {
 
   const {data: session , status} = useSession()
   const router = useRouter()
@@ -24,6 +26,15 @@ export default function Home() {
   return (
     <div className="bg-black h-screen font-roboto flex flex-col justify-center items-center space-y-28">
 
+      <div className="">
+      <Tweets tweets={tweets
+      } />
+      </div>
+
+      <div className="">
+      <h2 className='mb-10'>Join the conversation!</h2>
+      </div>
+
       <div className="logo">
         <BsTwitter/>
       </div>
@@ -34,4 +45,17 @@ export default function Home() {
       
     </div>
   )
+}
+
+
+export async function getServerSideProps() {
+  const take = 3
+  let tweets = await getTweets(prisma, take)
+  tweets = JSON.parse(JSON.stringify(tweets))
+
+  return {
+    props: {
+      tweets,
+    },
+  }
 }

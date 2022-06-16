@@ -1,23 +1,14 @@
-import { useSession } from "next-auth/react";
-import Loading from "pages/loading";
-import { useState } from "react";
-import Tweets from "./Tweets";
-import { useRouter } from "next/router";
+// this component is for getting the tweets for a particular user
 
-export default function Newtweet({ tweets }) {
-  const { data: session , status } = useSession();
-  
-  if (!session) return <Loading />;
+import { getUserTweets } from "lib/data";
+import prisma from "lib/prisma";
+import Tweets from "./component/Tweets";
 
-  if(status === 'loading') return null;
 
-  const router = useRouter();
-
-  const [content, setContent] = useState("");
-
+export default function UserProfile({ name , userTweets }) {
   return (
-    <div className="tweets-section bg-black h-full text-white h-screen">
-      <div className="">
+    <div className="tweets-section bg-black  h-screen text-white h-screen">
+      <div className="p-6">
         <div className="tweet-navbar py-4 px-2 justify-between hidden md:flex md:block ">
           <div className="navbar-link">
             <a href="/" className="font-bold">
@@ -161,7 +152,19 @@ export default function Newtweet({ tweets }) {
           </form>
         </div>
       </div>
-      <Tweets tweets={tweets} />
+      <Tweets tweets={userTweets} />
     </div>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  let userTweets = await getUserTweets(params.name , prisma)
+  userTweets = JSON.parse(JSON.stringify(userTweets))
+
+  return {
+    props: {
+      name: params.name,
+      userTweets,
+    },
+  };
 }
