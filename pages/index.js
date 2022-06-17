@@ -24,11 +24,10 @@ export default function Home({tweets}) {
 
 
   return (
-    <div className="bg-black h-screen font-roboto flex flex-col justify-center items-center space-y-28">
+    <div className="bg-black h-screen font-roboto flex flex-col justify-center items-center space-y-10">
 
       <div className="">
-      <Tweets tweets={tweets
-      } />
+      <Tweets tweets={tweets} />
       </div>
 
       <div className="">
